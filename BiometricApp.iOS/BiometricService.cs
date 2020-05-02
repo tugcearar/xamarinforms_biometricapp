@@ -11,12 +11,12 @@ namespace BiometricApp.iOS
 {
     public class BiometricService : IBiometricService
     {
-        LAContext context;
+        LAContext context = new LAContext();
 
         public async Task<bool> LoginWithBiometrics()
         {
-            context = new LAContext();
             context.LocalizedCancelTitle = "I don't want it.";
+            context.LocalizedFallbackTitle = "Use password.";
             NSError error = new NSError();
             Tuple<bool, NSError> result = new Tuple<bool, NSError>(false, null);
 
@@ -50,15 +50,5 @@ namespace BiometricApp.iOS
                 return false;
         }
 
-        public bool IsDeviceSupportBiometry()
-        {
-            return (context.BiometryType == LABiometryType.TouchId ||
-                context.BiometryType == LABiometryType.FaceId) ? true : false;
-        }
-
-        public void LoginWithBiometricsWithoutResult()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

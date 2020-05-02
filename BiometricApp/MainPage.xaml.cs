@@ -24,16 +24,13 @@ namespace BiometricApp
 
         async void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            if (DependencyService.Get<IBiometricService>().IsDeviceSupportBiometry())
+            var result = await DependencyService.Get<IBiometricService>().LoginWithBiometrics();
+            if (result)
             {
-                var result = await DependencyService.Get<IBiometricService>().LoginWithBiometrics();
-                if (result)
-                {
-                    await DisplayAlert("", "May your reign be long!", "OK");
-                }
-                else
-                    await DisplayAlert("", "Returning to the Night Watch.", "OK");
+                await DisplayAlert("", "May your reign be long!", "OK");
             }
+            else
+                await DisplayAlert("", "Returning to the Night Watch.", "OK");
         }
     }
 }

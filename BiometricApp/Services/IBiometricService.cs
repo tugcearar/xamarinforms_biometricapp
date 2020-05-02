@@ -6,7 +6,5 @@ namespace BiometricApp.Services
     public interface IBiometricService
     {
         Task<bool> LoginWithBiometrics();
-        
-        bool IsDeviceSupportBiometry();
     }
 }
