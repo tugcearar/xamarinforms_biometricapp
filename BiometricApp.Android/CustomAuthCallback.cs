@@ -5,24 +5,11 @@ using Java.Lang;
 
 namespace BiometricApp.Droid
 {
-    public class MyFragment : AndroidX.Fragment.App.Fragment
-    {
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-        }
-
-        public override void OnAttach(Context context)
-        {
-            base.OnAttach(context);
-        }
-    }
-
-    public class MyCallback : AndroidX.Biometric.BiometricPrompt.AuthenticationCallback
+    public class CustomAuthCallback : AndroidX.Biometric.BiometricPrompt.AuthenticationCallback
     {
         private TaskCompletionSource<bool> _taskCompletionSource;
 
-        public MyCallback()
+        public CustomAuthCallback()
         {
             _taskCompletionSource = new TaskCompletionSource<bool>();
         }
@@ -32,7 +19,7 @@ namespace BiometricApp.Droid
             return _taskCompletionSource.Task;
         }
 
-        private void SetResultSafe(bool result)
+        private void SetAuthResult(bool result)
         {
             if (!(_taskCompletionSource.Task.IsCanceled || _taskCompletionSource.Task.IsCompleted || _taskCompletionSource.Task.IsFaulted))
             {
@@ -43,23 +30,20 @@ namespace BiometricApp.Droid
         public override void OnAuthenticationError(int errorCode, ICharSequence errString)
         {
             base.OnAuthenticationError(errorCode, errString);
-            var faResult = false;
-            SetResultSafe(faResult);
+            SetAuthResult(false);
         }
 
         public override void OnAuthenticationSucceeded(AndroidX.Biometric.BiometricPrompt.AuthenticationResult result)
         {
             base.OnAuthenticationSucceeded(result);
-            var faResult = true;
-            SetResultSafe(faResult);
+            SetAuthResult(true);
 
         }
 
         public override void OnAuthenticationFailed()
         {
             base.OnAuthenticationFailed();
-            var faResult = false;
-            SetResultSafe(faResult);
+            SetAuthResult(false);
         }
     }
 }

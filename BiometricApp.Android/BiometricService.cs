@@ -13,10 +13,7 @@ namespace BiometricApp.Droid
     {
         private BiometricPrompt biometricPrompt;
         private BiometricPrompt.PromptInfo promptInfo;
-
         public BiometricManager manager = BiometricManager.From(MainActivity.CurrentActivity);
-
-
         public bool IsDeviceSupportBiometry()
         {
             switch (manager.CanAuthenticate())
@@ -38,7 +35,7 @@ namespace BiometricApp.Droid
         {
             if (IsDeviceSupportBiometry())
             {
-                var callBack = new MyCallback();
+                var callBack = new CustomAuthCallback();
                 var executor = Executors.NewSingleThreadExecutor();
                 biometricPrompt = new BiometricPrompt(MainActivity.CurrentActivity as FragmentActivity, executor, callBack);
                 promptInfo = new BiometricPrompt.PromptInfo.Builder()
